@@ -1,0 +1,35 @@
+<h2 class="h2 text-center my-4">{{this.authService.user_email}} Portfolio</h2>
+<table class="table text-center px-3" *ngIf="this.db.userCoinsData.length > 0 else notFavCoins">
+    <thead>
+        <th scope="col"></th>
+        <th scope="col">Symbol</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price (€) </th>
+        <th scope="col">Market Cap</th>
+        <th scope="col">Market Volume</th>
+        <th scope="col">Highest Price 24h (€)</th>
+        <th scope="col">Lowest Price 24h (€)</th>
+    </thead>
+    <tr *ngFor="let coin of this.db.userCoinsData">
+        <td><i class="fa-solid fa-star" (click)="this.db.removeCoin(coin.id, this.authService.user_id)"></i></td>
+        <td><img [src]="coin.image.large" style="width:52px" alt="coin" class="btn" [routerLink]="['/coins',this.coin.id]"></td>
+        <td class="fw-bold">{{ coin.name }}</td>
+        <td>{{ coin.market_data.current_price.eur }}</td>
+        <td>{{ coin.market_data.market_cap.eur }}</td>
+        <td>{{ coin.market_data.total_volume.eur }}</td>
+        <td>{{ coin.market_data.high_24h.eur }}</td>
+        <td>{{ coin.market_data.low_24h.eur }}</td>
+    </tr>
+    <tfoot>
+        <td colspan="8"></td>
+        <td>
+            <select class="form-select" (change)="this.db.sortCoins()" [(ngModel)]="this.db.sortMode">
+                <option value="desc">Descending Price</option>
+                <option value="asc">Ascending Price</option>
+            </select>
+        </td>
+    </tfoot>
+</table>
+<ng-template #notFavCoins>
+    <h4 class="h4 text-danger text-center">There are no tracked Cryptocurrencies</h4>
+</ng-template>

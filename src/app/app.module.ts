@@ -19,6 +19,8 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuardService } from './auth-guard.service';
 import { AuthService } from './auth.service';
+import { CoinsComponent } from './coins/coins.component';
+import { CoinDetailsComponent } from './coin-details/coin-details.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { AuthService } from './auth.service';
     BodyComponent,
     PortfolioComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CoinsComponent,
+    CoinDetailsComponent
   ],
   imports: [
     BrowserModule,
