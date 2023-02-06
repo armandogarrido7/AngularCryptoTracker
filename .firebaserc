@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cryptotracker-33975": {
+      "hosting": {
+        "CryptoTracker": [
+          "cryptotracker-33975"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cryptotracker-33975"
+  }
+}

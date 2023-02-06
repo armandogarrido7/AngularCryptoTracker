@@ -1,0 +1,32 @@
+<div>
+    <h2 class="h2 text-center">{{this.authService.user_email}} Portfolio</h2>
+    <table>
+        <thead>
+            <th></th>
+            <th>Symbol</th>
+            <th>Name</th>
+        </thead>
+        <tr *ngFor="let coin of this.api.userFavCoins; index as i">
+            <td><i class="fa-solid fa-star" (click)="this.db.deleteCrypto(coin.id, this.authService.user_id)"></i></td>
+            <td><img [src]="coin.image.large" style="width:46px" alt="coin"></td>
+            <td>{{ coin.name }}</td>
+        </tr>
+    </table>
+</div>
+
+<hr>
+<div class="d-flex flex-column align-items-center">
+    <h2 class="h2 text-center">Crypto List</h2>
+    <table>
+        <tr class="d-flex gap-3 align-items-center m-2" *ngFor="let coin of this.api.coins | slice: (page-1) * pageSize : page * pageSize">
+            <i *ngIf="this.db.isCoinFav(coin.id) else find" class="fa-regular fa-star" (click)="this.db.addCrypto(coin.id, this.authService.user_id)"></i>
+            <ng-template #find>
+                <i class="fa-solid fa-star" (click)="this.db.deleteCrypto(coin.id, this.authService.user_id)"></i>
+            </ng-template>
+            <img [src]="coin.image.large" style="width:32px">
+            <h5>{{coin.name}}</h5>
+        </tr>
+    </table>
+    <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="this.api.coins.length">
+    </ngb-pagination>
+</div>
