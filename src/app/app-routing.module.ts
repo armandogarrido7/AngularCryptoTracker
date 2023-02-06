@@ -4,6 +4,7 @@ import { BodyComponent } from './body/body.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+  providers: [AuthService, AuthGuardService],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

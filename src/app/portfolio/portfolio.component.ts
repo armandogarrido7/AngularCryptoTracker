@@ -11,14 +11,36 @@ import { APIAccessService } from '../api-access.service';
 export class PortfolioComponent {
   page=1;
   pageSize=10;
-  favCoinsIds:any;
-  favCoins=new Array;
-  constructor(public authService:AuthService, public db:FirebaseService, public api:APIAccessService){
+  userCoinsData=new Array;
+  constructor(public authService:AuthService, public db:FirebaseService, public API:APIAccessService){
 
   }
 
   ngOnInit(){
     this.db.getUserCoins(this.authService.user_id);
-    this.api.getFavCoinsInfo();    
+    this.userCoinsData = new Array<any>();
+    this.getCoinsData();
+  }
+  removeCoin(coin_id:any, user_id:any){
+    this.db.deleteCrypto(coin_id, user_id),
+    this.getCoinsData();
+  }
+  getCoinsData(){
+    this.userCoinsData = [];
+    this.db.userCoins.forEach((element:any) => {
+      for(let i = 0; i < element.length; i++){
+        this.API.getCoinInfo(element[i].coin_id).subscribe((data:any) => {
+          if(this.userCoinsData.find((crypto:any) => crypto.id == data.id))
+            return;
+          this.userCoinsData.push(data);
+        })
+      }
+    });
+  }
+  isCoinFav(coin_id:any){
+    for (let coin of this.userCoinsData){
+      if (coin.id == coin_id) return true;
+    }
+    return false;
   }
 }

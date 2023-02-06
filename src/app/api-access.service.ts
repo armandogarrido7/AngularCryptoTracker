@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class APIAccessService {
   public coins = new Array();
   public userFavCoins = new Array();
-  constructor(public http:HttpClient, public db:FirebaseService){
+  constructor(public http:HttpClient){
     this.getCoins();
   }
   
@@ -17,24 +17,9 @@ export class APIAccessService {
     this.http.get('https://api.coingecko.com/api/v3/coins/').subscribe((data:any)=>{ this.coins = data});
   }
   getCoinInfo(coin_id:string){
-    this.userFavCoins = [];
-    this.http.get('https://api.coingecko.com/api/v3/coins/' + coin_id).subscribe((data:any)=>{ 
-      for (let coin of this.userFavCoins){
-        if (coin.id == coin_id){
-          return;
-        }
-      }
-      this.userFavCoins.push(data);
-      });
+    return this.http.get('https://api.coingecko.com/api/v3/coins/' + coin_id);
   }
   ngOnInit(){
     this.getCoins();
   }
-  getFavCoinsInfo(){
-    this.db.user_coins.forEach((list:any) => {
-      for (let coin of list){
-        this.getCoinInfo(coin.coin_id);
-      }
-      }) 
-    }
 }

@@ -1,32 +1,45 @@
 <div>
     <h2 class="h2 text-center">{{this.authService.user_email}} Portfolio</h2>
-    <table>
+    <table class="table text-center" *ngIf="userCoinsData.length > 0 else notFavCoins">
         <thead>
-            <th></th>
-            <th>Symbol</th>
-            <th>Name</th>
+            <th scope="col"></th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price (€) </th>
+            <th scope="col">Market Cap</th>
+            <th scope="col">Market Volume</th>
+            <th scope="col">Highest Price 24h (€)</th>
+            <th scope="col">Lowest Price 24h (€)</th>
         </thead>
-        <tr *ngFor="let coin of this.api.userFavCoins; index as i">
-            <td><i class="fa-solid fa-star" (click)="this.db.deleteCrypto(coin.id, this.authService.user_id)"></i></td>
+        <tr *ngFor="let coin of userCoinsData">
+            <td><i class="fa-solid fa-star" (click)="removeCoin(coin.id, this.authService.user_id)"></i></td>
             <td><img [src]="coin.image.large" style="width:46px" alt="coin"></td>
             <td>{{ coin.name }}</td>
+            <td>{{ coin.market_data.current_price.eur }}</td>
+            <td>{{ coin.market_data.market_cap.eur }}</td>
+            <td>{{ coin.market_data.total_volume.eur }}</td>
+            <td>{{ coin.market_data.high_24h.eur }}</td>
+            <td>{{ coin.market_data.low_24h.eur }}</td>
         </tr>
     </table>
+    <ng-template #notFavCoins>
+        <h4 class="h4 text-danger text-center">There are no tracked Cryptocurrencies</h4>
+    </ng-template>
 </div>
 
 <hr>
 <div class="d-flex flex-column align-items-center">
     <h2 class="h2 text-center">Crypto List</h2>
     <table>
-        <tr class="d-flex gap-3 align-items-center m-2" *ngFor="let coin of this.api.coins | slice: (page-1) * pageSize : page * pageSize">
-            <i *ngIf="this.db.isCoinFav(coin.id) else find" class="fa-regular fa-star" (click)="this.db.addCrypto(coin.id, this.authService.user_id)"></i>
+        <tr class="d-flex gap-3 align-items-center m-2" *ngFor="let coin of this.API.coins | slice: (page-1) * pageSize : page * pageSize">
+            <i *ngIf="isCoinFav(coin.id) else find" class="fa-solid fa-star" (click)="this.removeCoin(coin.id, this.authService.user_id)"></i>
             <ng-template #find>
-                <i class="fa-solid fa-star" (click)="this.db.deleteCrypto(coin.id, this.authService.user_id)"></i>
+                <i class="fa-regular fa-star" (click)="this.db.addCrypto(coin.id, this.authService.user_id)"></i>
             </ng-template>
             <img [src]="coin.image.large" style="width:32px">
             <h5>{{coin.name}}</h5>
         </tr>
     </table>
-    <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="this.api.coins.length">
+    <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="this.API.coins.length">
     </ngb-pagination>
 </div>

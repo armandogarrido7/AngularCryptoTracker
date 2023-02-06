@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collectionData, collection, query, where, setDoc, deleteDoc, doc, getDocs} from '@angular/fire/firestore';
-import { AuthService } from './auth.service';
+import { APIAccessService } from './api-access.service';
+// import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  user_coins:any;
-  user_coins_ids= new Array();
+  userCoins:any;
+  userCoinsData=new Array();
   coinsCollection:any;
-  constructor(public firestore: Firestore) { }
+  constructor(public firestore: Firestore, public API:APIAccessService) { 
+    this.coinsCollection = collection(this.firestore, "coins");
+  }
   addCrypto(coin_id: any, user_id: any){
     setDoc(doc(this.firestore, 'coins', coin_id+"-"+ user_id), {
       user_id: user_id,
@@ -22,19 +25,13 @@ export class FirebaseService {
   }  
 
   getUserCoins(user_id:any){
-    this.user_coins_ids = [];
-    this.coinsCollection = collection(this.firestore, "coins");
-    this.user_coins = collectionData(query(this.coinsCollection, where("user_id", "==", user_id)));
-    this.user_coins.forEach((list:any) => {
-      for (let coin of list){
-        this.user_coins_ids.push(coin.coin_id);
-      }
-    })
-    
+    if (user_id){
+      this.userCoins = collectionData(query(this.coinsCollection, where("user_id", "==", user_id)));
+      this.userCoins.forEach((list:any) => {
+        for (let coin of list){
+          this.API.getCoinInfo(coin.coin_id);
+        }
+      }) 
+    }
   }
-
-  async isCoinFav(coin_id:any){
-    return true;
-  }
-
 }
