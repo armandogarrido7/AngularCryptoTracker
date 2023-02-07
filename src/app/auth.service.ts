@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirebaseApp } from '@angular/fire/app';
-import { Auth, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FirebaseService } from './firebase.service';
 
@@ -52,14 +52,25 @@ export class AuthService {
       this.user_id = userCredential.user.uid;
       this.user_email = userCredential.user.email;
       // this.db.getUserCoins();
-      this.router.navigate(['/']);
+      this.router.navigate(['/portfolio']);
     })
     .catch((error) => {
       this.isAuthenticated = false;
       this.user_id = '';
     });
   }
+  loginWithGoogle(){
+    const auth = getAuth();
+  signInWithPopup(auth, new GoogleAuthProvider())
+  .then((userCredential:any) => {
+    this.user_id = userCredential.user.uid;
+    this.router.navigate(['/portfolio']);
+  }).catch((error:any) => {
+    this.user_id = '';
+    this.router.navigate(['/']);
 
+  });
+  }
   getAuthenticated(){
       return this.isAuthenticated;
   }

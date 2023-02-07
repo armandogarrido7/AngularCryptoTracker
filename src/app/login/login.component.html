@@ -15,13 +15,13 @@
     <!-- 2 column grid layout for inline styling -->
 
     <!-- Submit button -->
-    <button type="button" class="btn btn-primary btn-block mb-4" (click)="login()">Sign in</button>
+    <button type="button" class="btn btn-primary btn-block mb-4" (click)="this.authService.login(this.login_email, this.login_password)">Sign in</button>
 
     <!-- Register buttons -->
     <div class="text-center">
         <p>Not a member? <a routerLink="/register">Register</a></p>
         <p>or sign up with:</p>
-        <button type="button" class="btn btn-link btn-floating mx-1">
+        <button type="button" class="btn btn-link btn-floating mx-1" (click)="this.authService.loginWithGoogle()">
         <i class="fab fa-google"></i>
       </button>
     </div>

@@ -11,9 +11,6 @@ export class LoginComponent {
   login_password='';
   constructor(public authService:AuthService){
 
-  } 
-  login(){
-    // console.log('Email: ',this.login_email," / Password: ", this.login_password);
-    this.authService.login(this.login_email, this.login_password);
   }
+  
 }
