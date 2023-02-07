@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FirebaseApp } from '@angular/fire/app';
 import { Auth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { FirebaseService } from './firebase.service';
