@@ -12,8 +12,6 @@ export class CoinDetailsComponent {
   coin_data:any;
   constructor(public db:FirebaseService, private _Activatedroute:ActivatedRoute){
     this.coin_id=this._Activatedroute.snapshot.paramMap.get("id");
-    console.log(this.coin_id);
     this.coin_data = this.db.getCoinData(this.coin_id);
-    console.log(this.coin_data);
   }
 }

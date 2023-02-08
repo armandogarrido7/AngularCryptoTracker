@@ -75,7 +75,6 @@ export class AuthService {
   }
 
   logout(){
-    console.log('logout');
     signOut(this.auth).then(() => {
       this.isAuthenticated = false;
       this.user_id = '';

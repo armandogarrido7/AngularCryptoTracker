@@ -1,8 +1,16 @@
 <div class="card mx-auto" style="width: 80vw;">
-    <img class="card-img-top" style="width: 20vw;" [src]="coin_data.image.large" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">{{ coin_data.name }}</h5>
-        <p class="card-text text-center">{{ coin_data.description.en}}</p>
-        <a href="#" class="btn btn-primary" routerLink="/portfolio">Go back to the Portfolio</a>
+    <img class="card-img-top align-self-center" style="width: 20vw;" [src]="coin_data.image.large" alt="Card image cap">
+    <div class="card-body d-flex flex-column align-content-center">
+        <h5 class="card-title text-center">{{ coin_data.name }} ({{coin_data.symbol}})</h5>
+        <p class="card-text">{{ coin_data.description.en}}</p>
+        <p class="mx-auto text-center" style="width:50%">Creation Date: {{coin_data.genesis_date}}</p>
+        <p class="mx-auto text-center" style="width:50%">Actual Price: {{coin_data.market_data.current_price.eur}}€</p>
+        <p class="mx-auto text-center" style="width:50%">Links:
+            <a [href]="coin_data.links.homepage[0]" target="_blank" class="btn"><i class="fa-solid fa-link fa-xl"></i></a>
+            <a [href]="'http://www.facebook.com/' + coin_data.links.facebook_username" target="_blank" class="btn"><i class="fa-brands fa-facebook fa-xl"></i></a>
+            <a [href]="'http://www.twitter.com/' + coin_data.links.twitter_screen_name" target="_blank" class="btn"><i class="fa-brands fa-twitter fa-xl"></i></a>
+            <a [href]="coin_data.links.repos_url.github[0]" target="_blank" class="btn"><i class="fa-brands fa-github fa-xl" target="_blank"></i></a>
+        </p>
+        <a href="#" style="width:50%" class="btn btn-primary mx-auto" routerLink="/portfolio">Go back to the Portfolio</a>
     </div>
 </div>
